@@ -1,0 +1,137 @@
+/* Style général */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+/* En-tête principal */
+h1 {
+    font-size: 2.5rem;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Animation de fade-in pour les articles */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Appliquer l'animation aux articles */
+#news-container > .col {
+    animation: fadeIn 1s ease-out;
+}
+
+/* Styles des cartes */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet de survol sur les cartes */
+.card:hover {
+    transform: scale(1.05) rotate(1deg); /* Zoom + légère rotation */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Images des cartes */
+.card-img-top {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Titre de la carte */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 0.75rem;
+}
+
+/* Texte de la carte */
+.card-text {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+/* Boutons dans les cartes */
+.card .btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.card .btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Effet d'élévation */
+}
+
+/* Conteneur des cartes */
+#news-container {
+    margin-top: 2rem;
+}
+
+/* Animation de chargement */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3em;
+}
+
+/* Affichage de la spinner avant que les articles ne se chargent */
+#loading-spinner {
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+/* Pied de page (optionnel) */
+footer {
+    background-color: #343a40;
+    color: #f8f9fa;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive (pour des ajustements supplémentaires si nécessaire) */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .card-img-top {
+        height: 150px;
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .card-text {
+        font-size: 0.85rem;
+    }
+}
+
+/* Personnalisation des alertes si nécessaire */
+#error-message {
+    margin-top: 20px;
+    font-size: 1rem;
+    text-align: center;
+}

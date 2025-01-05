@@ -1,24 +1,66 @@
-const axios = require('axios');
+const Joi = require('joi');
+const news = []; // Tableau fictif pour les news
 
-const DUMMY_JSON_URL = 'https://dummyjson.com/posts';
+// Validation des données de la news
+const newsSchema = Joi.object({
+  title: Joi.string().min(3).max(100).required(),
+  body: Joi.string().min(5).max(1000).required(),
+  imageUrl: Joi.string().uri().required(),
+});
 
-const newsController = {
-    // TODO: Question 5 - Implémenter les méthodes du contrôleur
-    async getAllNews(req, res) {
-        try {
-            // Utiliser axios pour faire une requête à DummyJSON
-        } catch (error) {
-            res.status(500).json({ message: 'Erreur serveur' });
-        }
-    },
-
-    async getNewsById(req, res) {
-        // TODO: Implémenter la récupération d'un article par son ID
-    },
-
-    async createNews(req, res) {
-        // TODO: Implémenter la création d'un article
-    }
+// Fonction pour obtenir toutes les news
+const getAllNews = (req, res) => {
+  res.json(news);
 };
 
-module.exports = newsController;
+// Fonction pour obtenir une news par ID
+const getNewsById = (req, res) => {
+  const newsItem = news.find(n => n.id === parseInt(req.params.id));
+  if (!newsItem) return res.status(404).json({ message: 'News non trouvée' });
+  res.json(newsItem);
+};
+
+// Fonction pour créer une news
+const createNews = (req, res) => {
+  const { error } = newsSchema.validate(req.body);
+  if (error) return res.status(400).json({ message: error.details[0].message });
+
+  const newNews = {
+    id: news.length + 1,
+    ...req.body,
+  };
+  news.push(newNews);
+  res.status(201).json(newNews);
+};
+
+// Fonction pour mettre à jour une news
+const updateNews = (req, res) => {
+  const { error } = newsSchema.validate(req.body);
+  if (error) return res.status(400).json({ message: error.details[0].message });
+
+  const newsItem = news.find(n => n.id === parseInt(req.params.id));
+  if (!newsItem) return res.status(404).json({ message: 'News non trouvée' });
+
+  newsItem.title = req.body.title;
+  newsItem.body = req.body.body;
+  newsItem.imageUrl = req.body.imageUrl;
+
+  res.json(newsItem);
+};
+
+// Fonction pour supprimer une news
+const deleteNews = (req, res) => {
+  const newsIndex = news.findIndex(n => n.id === parseInt(req.params.id));
+  if (newsIndex === -1) return res.status(404).json({ message: 'News non trouvée' });
+
+  news.splice(newsIndex, 1);
+  res.status(204).send();
+};
+
+module.exports = {
+  createNews,
+  getAllNews,
+  getNewsById,
+  updateNews,
+  deleteNews,
+};
