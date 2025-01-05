@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>News Article</h1>
+        <div id="articleContainer" class="card mt-4">
+            <!-- The article will be displayed here -->
+        </div>
+        <button class="btn btn-primary mt-3" onclick="window.location.href='index.html'">Back to Articles</button>
+        <div id="error-message" class="error-message"></div>
+    </div>
+
+    <script>
+        // Fonction pour récupérer l'ID de l'article à afficher
+        const fetchArticle = async () => {
+            const articleId = new URLSearchParams(window.location.search).get('id');
+            if (!articleId) {
+                document.getElementById('error-message').textContent = 'No article ID found.';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/news/${articleId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch article');
+                }
+
+                const article = await response.json();
+                displayArticle(article);
+            } catch (error) {
+                document.getElementById('error-message').textContent = error.message;
+            }
+        };
+
+        // Fonction pour afficher un article
+        const displayArticle = (article) => {
+            const articleContainer = document.getElementById('articleContainer');
+
+            const articleContent = `
+                <img src="${article.imageUrl}" class="card-img-top" alt="${article.title}" 
+                    onError="this.onerror=null;this.src='https://via.placeholder.com/150';">
+                <div class="card-body">
+                    <h3 class="card-title">${article.title}</h3>
+                    <p class="card-text">${article.body}</p>
+                </div>
+            `;
+
+            articleContainer.innerHTML = articleContent;
+        };
+
+        // Appel de la fonction pour récupérer et afficher l'article dès le chargement de la page
+        window.onload = fetchArticle;
+    </script>
+</body>
+
+</html>
