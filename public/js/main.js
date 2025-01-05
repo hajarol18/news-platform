@@ -1,4 +1,3 @@
-
 async function fetchLatestNews() {
     try {
         const response = await fetch('/api/news'); 
@@ -13,17 +12,14 @@ async function fetchLatestNews() {
     }
 }
 
-
 function displayNews(news) {
     const container = document.getElementById('news-container');
     container.innerHTML = ''; 
 
-    
     news.forEach(article => {
         const articleElement = document.createElement('div');
         articleElement.classList.add('col-md-4', 'mb-4');
 
-        
         articleElement.innerHTML = `
             <div class="card">
                 <img src="${article.image || 'https://via.placeholder.com/150'}" class="card-img-top" alt="${article.title}">
@@ -35,16 +31,13 @@ function displayNews(news) {
             </div>
         `;
 
-        
         container.appendChild(articleElement);
     });
 }
-
 
 function showError(message) {
     const errorContainer = document.getElementById('error-container'); 
     errorContainer.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`; 
 }
-
 
 document.addEventListener('DOMContentLoaded', fetchLatestNews);
