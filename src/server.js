@@ -41,7 +41,7 @@ app.use((err, req, res, next) => {
 });
 
 // Démarrage du serveur sur le port 3000 ou celui défini dans l'environnement
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
